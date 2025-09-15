@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Image Captioning</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+  <h1 class="text-center mb-4">🩺 Medical Image Caption Generator</h1>
+
+  <div class="card p-4 shadow-lg">
+    <form id="uploadForm">
+      <div class="mb-3">
+        <label for="fileInput" class="form-label">Upload a Medical Image</label>
+        <input class="form-control" type="file" id="fileInput" accept="image/*" required>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Generate Captions</button>
+    </form>
+  </div>
+
+  <div class="mt-4" id="results"></div>
+</div>
+
+<script>
+const API_URL = "https://medical-captioning.onrender.com/caption/"; // replace with your Render URL
+
+document.getElementById("uploadForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const fileInput = document.getElementById("fileInput");
+    if (!fileInput.files.length) {
+        alert("Please upload an image.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+
+    const response = await fetch(API_URL, {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await response.json();
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = `
+        <h4>Generated Captions:</h4>
+        <ul class="list-group">
+            ${data.captions.map(c => `<li class="list-group-item">${c}</li>`).join("")}
+        </ul>
+    `;
+});
+</script>
+
+</body>
+</html>
