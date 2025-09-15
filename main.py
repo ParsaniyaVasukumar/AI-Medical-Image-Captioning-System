@@ -1,4 +1,5 @@
 import io
+import os
 import csv
 import torch
 from PIL import Image
@@ -32,10 +33,13 @@ def load_medical_captions_from_txt(txt_filepath):
             captions_dict[image_name].append(caption)
     return captions_dict
 
-
-# Example usage
-caption_file_path = r"C:\Users\vasup\Downloads\archive (2)\all_data\train\both captions\captions_both.txt"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+caption_file_path = os.path.join(BASE_DIR, "captions", "captions_both.txt")
 medical_captions = load_medical_captions_from_txt(caption_file_path)
+
+# # Example usage
+# caption_file_path = r"C:\Users\vasup\Downloads\archive (2)\all_data\train\both captions\captions_both.txt"
+# medical_captions = load_medical_captions_from_txt(caption_file_path)
 
 # Flatten captions into a single list
 candidate_captions = []
