@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical Image Captioning</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  h1 {
+    font-weight: 700;
+    color: #1f2937;
+  }
+
+  .card {
+    border-radius: 15px;
+    background: #ffffff;
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  #results {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.08);
+    min-height: 80px;
+  }
+
+  .spinner-border {
+    display: none;
+    width: 2rem;
+    height: 2rem;
+    margin-left: 10px;
+  }
+
+  button:disabled {
+    opacity: 0.7;
+  }
+
+  ul.list-group li {
+    font-size: 1.05rem;
+    color: #374151;
+  }
+</style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1 class="text-center mb-4">🩺 AI Medical Image Captioning System</h1>
+
+  <div class="card p-4 shadow-lg">
+    <form id="uploadForm">
+      <div class="mb-3">
+        <label for="fileInput" class="form-label">Upload a Medical Image</label>
+        <input class="form-control" type="file" id="fileInput" accept="image/*" required>
+      </div>
+      <button type="submit" class="btn btn-primary w-100" id="submitBtn">
+        Generate Captions
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="loadingSpinner"></span>
+      </button>
+    </form>
+  </div>
+
+  <div id="results" class="mt-4"></div>
+</div>
+
+<script>
+const API_URL = "https://medical-captioning.onrender.com/caption/"; // Replace with your Render URL
+
+document.getElementById("uploadForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const fileInput = document.getElementById("fileInput");
+    const resultsDiv = document.getElementById("results");
+    const submitBtn = document.getElementById("submitBtn");
+    const spinner = document.getElementById("loadingSpinner");
+
+    if (!fileInput.files.length) {
+        alert("Please upload an image.");
+        return;
+    }
+
+    // Show spinner and disable button
+    spinner.style.display = "inline-block";
+    submitBtn.disabled = true;
+    resultsDiv.innerHTML = "";
+
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.captions) {
+            resultsDiv.innerHTML = `
+                <h4>Generated Captions:</h4>
+                <ul class="list-group">
+                    ${data.captions.map(c => `<li class="list-group-item">${c}</li>`).join("")}
+                </ul>
+            `;
+        } else {
+            resultsDiv.innerHTML = "<p>No captions returned.</p>";
+        }
+    } catch (err) {
+        resultsDiv.innerHTML = `<p class="text-danger">Error: ${err.message}</p>`;
+    } finally {
+        spinner.style.display = "none";
+        submitBtn.disabled = false;
+    }
+});
+</script>
+
+</body>
+</html>

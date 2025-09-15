@@ -147,6 +147,18 @@ if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 
+from fastapi.middleware.cors import CORSMiddleware
 
+# Allow Netlify frontend to access backend
+origins = [
+    "https://aimedicalimagecaptioning.netlify.app",  # your Netlify frontend URL
+    # "http://localhost:3000", # optional, if testing locally
+]
 
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,   # or ["*"] to allow all (for testing)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
