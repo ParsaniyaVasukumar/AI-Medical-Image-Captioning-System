@@ -36,6 +36,7 @@
     width: 2rem;
     height: 2rem;
     margin-left: 10px;
+    color: #0d6efd;
   }
 
   button:disabled {
@@ -45,6 +46,13 @@
   ul.list-group li {
     font-size: 1.05rem;
     color: #374151;
+  }
+
+  #previewImage {
+    max-width: 100%;
+    margin-top: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
   }
 </style>
 </head>
@@ -64,6 +72,7 @@
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="loadingSpinner"></span>
       </button>
     </form>
+    <img id="previewImage" src="" alt="Preview" style="display:none;">
   </div>
 
   <div id="results" class="mt-4"></div>
@@ -72,13 +81,15 @@
 <script>
 const API_URL = "https://medical-captioning.onrender.com/caption/"; // Replace with your Render URL
 
-document.getElementById("uploadForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
+const uploadForm = document.getElementById("uploadForm");
+const fileInput = document.getElementById("fileInput");
+const resultsDiv = document.getElementById("results");
+const submitBtn = document.getElementById("submitBtn");
+const spinner = document.getElementById("loadingSpinner");
+const previewImage = document.getElementById("previewImage");
 
-    const fileInput = document.getElementById("fileInput");
-    const resultsDiv = document.getElementById("results");
-    const submitBtn = document.getElementById("submitBtn");
-    const spinner = document.getElementById("loadingSpinner");
+uploadForm.addEventListener("submit", async function(e) {
+    e.preventDefault();
 
     if (!fileInput.files.length) {
         alert("Please upload an image.");
@@ -90,8 +101,13 @@ document.getElementById("uploadForm").addEventListener("submit", async function(
     submitBtn.disabled = true;
     resultsDiv.innerHTML = "";
 
+    // Show image preview
+    const file = fileInput.files[0];
+    previewImage.src = URL.createObjectURL(file);
+    previewImage.style.display = "block";
+
     const formData = new FormData();
-    formData.append("file", fileInput.files[0]);
+    formData.append("file", file);
 
     try {
         const response = await fetch(API_URL, {
