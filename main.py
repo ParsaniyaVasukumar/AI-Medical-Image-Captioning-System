@@ -146,18 +146,18 @@ async def get_captions(file: UploadFile = File(...)):
 # ----------------------------
 # Run with Uvicorn
 # ----------------------------
-# if __name__ == "__main__":
-#     import uvicorn
-#     uvicorn.run(app, host="0.0.0.0", port=8000)
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
 
 from fastapi.middleware.cors import CORSMiddleware
 
-# Allow Netlify frontend to access backend
-origins = [
-    "https://ai-medical-image-captioning-system.netlify.app",  # your Netlify frontend URL
-    # "http://localhost:3000", # optional, if testing locally
-]
+# # Allow Netlify frontend to access backend
+# origins = [
+#     "https://ai-medical-image-captioning-system.netlify.app",  # your Netlify frontend URL
+#     # "http://localhost:3000", # optional, if testing locally
+# ]
 
 app.add_middleware(
     CORSMiddleware,
