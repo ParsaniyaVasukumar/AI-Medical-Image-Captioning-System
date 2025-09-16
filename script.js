@@ -1,1 +1,1 @@
-const API_URL = "https://medical-captioning.onrender.com/caption/";
+const API_URL = "http://127.0.0.1:8000/caption/";
