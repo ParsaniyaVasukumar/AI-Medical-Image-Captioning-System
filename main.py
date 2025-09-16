@@ -155,7 +155,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # Allow Netlify frontend to access backend
 origins = [
-    "https://aimedicalimagecaptioning.netlify.app",  # your Netlify frontend URL
+    "https://ai-medical-image-captioning-system.netlify.app",  # your Netlify frontend URL
     # "http://localhost:3000", # optional, if testing locally
 ]
 

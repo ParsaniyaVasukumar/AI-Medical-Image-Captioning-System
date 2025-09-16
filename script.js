@@ -1,5 +1,5 @@
 // Set your backend FastAPI API URL from Render or other cloud provider
-const API_URL = "https://medical-captioning-api.onrender.com/caption/";
+const API_URL = "https://ai-medical-image-captioning-system.onrender.com/caption/";
 
 // DOM element references
 const uploadForm = document.getElementById("uploadForm");
