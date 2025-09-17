@@ -159,10 +159,10 @@ from fastapi.middleware.cors import CORSMiddleware
 #     # "http://localhost:3000", # optional, if testing locally
 # ]
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,   # or ["*"] to allow all (for testing)
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=origins,   # or ["*"] to allow all (for testing)
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
